@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.Enjaz" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#160D12</item>
+        <item name="android:statusBarColor">#160D12</item>
+        <item name="android:navigationBarColor">#160D12</item>
+    </style>
+</resources>
