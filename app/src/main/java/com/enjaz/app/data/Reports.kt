@@ -11,7 +11,8 @@ data class ReportData(
     val bySubject: List<Pair<String, Int>>,
     val buckets: List<Pair<String, Int>>,
     val absentDays: Int?,
-    val tiktokMin: Int?,
+    val distractMin: Int?,
+    val topApps: List<Pair<String, Int>>,
     val focusMin: Int?,
     val results: List<ExamResult>
 )
@@ -19,7 +20,7 @@ data class ReportData(
 object Reports {
     fun build(
         period: Period, repo: DataRepository, openDates: Set<String>,
-        usage: UsageHelper, focusPackage: String
+        usage: UsageHelper, settings: AppSettings
     ): ReportData {
         val today = DateUtil.today()
         val start = DateUtil.plus(today, -(period.days - 1))
@@ -60,11 +61,22 @@ object Reports {
                 .count { it >= first && it !in openDates }
         }
 
-        val tiktok = usage.minutes(TIKTOK_PACKAGES, startMs, now)
-        val focus = if (focusPackage.isBlank()) null else usage.minutes(setOf(focusPackage), startMs, now)
+        var distract: Int? = null
+        var topApps: List<Pair<String, Int>> = emptyList()
+        if (settings.monitoringEnabled) {
+            val map = usage.minutesByPackage(settings.effectiveMonitored(), startMs, now)
+            if (map != null) {
+                distract = map.values.sum()
+                topApps = map.entries.groupBy { usage.labelOf(it.key) }
+                    .map { (label, list) -> label to list.sumOf { it.value } }
+                    .filter { it.second > 0 }.sortedByDescending { it.second }.take(5)
+            }
+        }
+        val focusPkg = settings.focusPackage
+        val focus = if (focusPkg.isBlank()) null else usage.minutes(setOf(focusPkg), startMs, now)
         val results = repo.results.filter { it.date >= start && it.date <= today }
             .sortedByDescending { it.date }
 
-        return ReportData(completed, repo.overdueCount(), rate, bySubject, buckets, absent, tiktok, focus, results)
+        return ReportData(completed, repo.overdueCount(), rate, bySubject, buckets, absent, distract, topApps, focus, results)
     }
 }

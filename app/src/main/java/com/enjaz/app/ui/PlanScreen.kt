@@ -25,7 +25,7 @@ fun PlanScreen(repo: DataRepository, settings: AppSettings, persona: Persona) {
 
     Column(Modifier.fillMaxSize().background(Ink).padding(horizontal = 20.dp)) {
         Spacer(Modifier.height(16.dp))
-        Text("الخطة اليومية", color = Gold, fontSize = 26.sp, fontFamily = FontFamily.Serif)
+        ScreenTitle(EIcons.Plan, "الخطة اليومية")
         Spacer(Modifier.height(8.dp))
         Surface(color = Surface1, shape = RoundedCornerShape(12.dp)) {
             Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {

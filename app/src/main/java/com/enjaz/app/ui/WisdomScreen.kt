@@ -1,6 +1,12 @@
 package com.enjaz.app.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import com.enjaz.app.R
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -22,12 +28,14 @@ fun WisdomScreen(
     onEnter: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().background(Ink).padding(28.dp),
+        modifier = Modifier.fillMaxSize().background(Ink).verticalScroll(rememberScrollState()).padding(28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("إنجاز", color = Gold, fontSize = 44.sp, fontFamily = FontFamily.Serif)
-        Text("ENJAZ", color = Gold.copy(alpha = 0.6f), fontSize = 13.sp, letterSpacing = 6.sp)
+        Image(
+            painterResource(R.drawable.enjaz_logo), contentDescription = "شعار إنجاز",
+            modifier = Modifier.size(150.dp).clip(RoundedCornerShape(30.dp))
+        )
         Spacer(Modifier.height(24.dp))
         Box(Modifier.width(64.dp).height(2.dp).background(Gold))
         Spacer(Modifier.height(36.dp))

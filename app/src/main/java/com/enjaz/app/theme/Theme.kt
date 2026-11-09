@@ -10,6 +10,7 @@ val Gold = Color(0xFFD4AF37)
 val Ink = Color(0xFF160D12)
 val Surface1 = Color(0xFF22141A)
 val TextSoft = Color(0xFFE9DFD2)
+val Danger = Color(0xFFE53935)
 
 private val Scheme = darkColorScheme(
     primary = Gold, onPrimary = Ink,

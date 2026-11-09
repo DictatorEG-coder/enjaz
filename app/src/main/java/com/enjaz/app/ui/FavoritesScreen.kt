@@ -22,7 +22,7 @@ fun FavoritesScreen(
 ) {
     Column(Modifier.fillMaxSize().background(Ink).padding(20.dp)) {
         Spacer(Modifier.height(24.dp))
-        Text("الحكم المحفوظة", color = Gold, fontSize = 26.sp, fontFamily = FontFamily.Serif)
+        ScreenTitle(EIcons.Quote, "الحكم المحفوظة")
         Spacer(Modifier.height(16.dp))
         Box(Modifier.weight(1f)) {
             if (favorites.isEmpty()) {

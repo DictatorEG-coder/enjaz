@@ -27,7 +27,7 @@ fun ExperienceScreen(repo: DataRepository, persona: Persona) {
 
     Column(Modifier.fillMaxSize().background(Ink).padding(horizontal = 20.dp)) {
         Spacer(Modifier.height(16.dp))
-        Text("سجل التجارب", color = Gold, fontSize = 26.sp, fontFamily = FontFamily.Serif)
+        ScreenTitle(EIcons.Experience, "سجل التجارب")
         Spacer(Modifier.height(8.dp))
         feedback?.let {
             Surface(color = Crimson.copy(alpha = 0.45f), shape = RoundedCornerShape(12.dp)) {
@@ -57,6 +57,8 @@ fun ExperienceScreen(repo: DataRepository, persona: Persona) {
                 val prev = repo.previousFor(r)
                 Surface(color = Surface1, shape = RoundedCornerShape(14.dp)) {
                     Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(EIcons.Experience, null, tint = Gold, modifier = Modifier.size(24.dp))
+                        Spacer(Modifier.width(10.dp))
                         Column(Modifier.weight(1f)) {
                             Text("${r.subjectName} · ${r.examName}", color = TextSoft, fontSize = 16.sp)
                             Text(
@@ -74,7 +76,7 @@ fun ExperienceScreen(repo: DataRepository, persona: Persona) {
                             }
                             Text(r.date + (trend?.let { " · $it" } ?: ""), color = TextSoft.copy(alpha = 0.7f), fontSize = 13.sp)
                         }
-                        TextButton(onClick = { error = repo.deleteResult(r.id) }) { Text("حذف", color = Gold) }
+                        DeleteButton({ error = repo.deleteResult(r.id) })
                     }
                 }
             }
@@ -88,11 +90,17 @@ fun ExperienceScreen(repo: DataRepository, persona: Persona) {
                             )
                         }
                         Column(Modifier.weight(1f).padding(start = if (n.type == NoteType.GOAL) 0.dp else 6.dp)) {
-                            Text(n.type.label, color = Gold, fontSize = 12.sp)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                if (n.achieved) {
+                                    Icon(EIcons.Achievement, null, tint = Gold, modifier = Modifier.size(14.dp))
+                                    Spacer(Modifier.width(4.dp))
+                                }
+                                Text(n.type.label, color = Gold, fontSize = 12.sp)
+                            }
                             Text(n.text, color = TextSoft, fontSize = 16.sp, lineHeight = 24.sp,
                                 textDecoration = if (n.achieved) TextDecoration.LineThrough else null)
                         }
-                        TextButton(onClick = { error = repo.deleteNote(n.id) }) { Text("حذف", color = Gold) }
+                        DeleteButton({ error = repo.deleteNote(n.id) })
                     }
                 }
             }

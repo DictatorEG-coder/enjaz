@@ -1,22 +1,22 @@
-# إنجاز | ENJAZ
+# إنجاز | ENJAZ  (v0.4)
 
-تطبيق Android أصلي (Kotlin + Jetpack Compose) لإدارة الدراسة والمهام بشخصية قيادية صارمة.
+تطبيق Android أصلي (Kotlin + Jetpack Compose) لإدارة الدراسة والمهام بشخصية مدرب صارم.
 
-## البناء عبر GitHub Actions
-1. أنشئ مستودعًا باسم `enjaz` على GitHub ثم ادفع الملفات (الأوامر أدناه).
-2. تبويب Actions ← Build APK ← بعد النجاح نزّل artifact باسم `enjaz-debug-apk`.
+## الجديد في 0.4
+- أيقونة التطبيق والشعار داخل الواجهة.
+- روابط Telegram (القناة + منشور تطبيق تركيز) بأيقونة وتفتح مباشرة.
+- مدرب صارم: رسائل تتبع سلوكك الفعلي ولا تتكرر.
+- مراقبة تطبيقات التواصل والترفيه التي تختارها (مع قائمة المسموح) بإحصاءات الجهاز الفعلية.
+- إشعارات تلقائية محلية (WorkManager) قابلة للتحكم في أنواعها وأوقاتها.
+- نظام أيقونات موحد.
 
-## من Termux
+## التحديث فوق النسخة الحالية (يحفظ بياناتك)
+ارفع الملفات فوق المستودع نفسه (نفس اسم الحزمة com.enjaz.app) ثم ادفعها؛ أول مرة فقط: احذف نسخة إنجاز القديمة قبل تثبيت هذه (التوقيع تغيّر). من هذه النسخة فصاعدًا كل تحديث يُثبَّت فوق السابق وتبقى بياناتك.
+
 ```
-pkg install git unzip -y
-termux-setup-storage
 cd ~/storage/downloads
-unzip -o enjaz-phase3.zip && cd enjaz
-git init && git branch -M main
-git add . && git commit -m "enjaz v0.3"
-git remote add origin https://github.com/USERNAME/enjaz.git
-git push -u origin main --force
+unzip -o enjaz-v0.4.zip
+cp -r enjaz/. ~/enjaz/        # مسار مستودعك المحلي
+cd ~/enjaz
+git add . && git commit -m "v0.4" && git push
 ```
-
-## قناة Telegram
-تُضبط من الإعدادات داخل التطبيق (لا يوجد رابط مدمج).

@@ -2,13 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- لا يُمنح تلقائيًا: يمنحه المستخدم يدويًا من إعدادات النظام، ويُطلب فقط عند تفعيل ربط تركيز -->
+    <!-- إشعارات Android 13+: تُطلب بموافقة المستخدم عند تفعيل الإشعارات -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- يمنحه المستخدم يدويًا من إعدادات النظام، ويُطلب فقط عند تفعيل المراقبة -->
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
 
+    <!-- لعرض قائمة التطبيقات القابلة للتشغيل فقط (دون صلاحية الوصول لكل الحزم) -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Enjaz">

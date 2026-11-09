@@ -10,8 +10,16 @@ android {
         applicationId = "com.enjaz.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.4.0"
+    }
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions {
@@ -27,4 +35,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.work:work-runtime:2.9.1")
 }

@@ -16,6 +16,8 @@ object DateUtil {
 
     fun today(): String = fmt().format(Date())
 
+    fun dateOf(ms: Long): String = fmt().format(Date(ms))
+
     /** بداية اليوم (منتصف الليل) لتاريخ بصيغة yyyy-MM-dd. */
     fun dayStart(s: String): Long = fmt().parse(s)?.time ?: 0L
 

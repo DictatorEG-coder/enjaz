@@ -4,11 +4,10 @@ import android.app.AppOpsManager
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.provider.Settings
 
-val TIKTOK_PACKAGES = setOf("com.zhiliaoapp.musically", "com.ss.android.ugc.trill")
-
-/** قراءة وقت استخدام التطبيقات عبر واجهة النظام الرسمية، ولا تعمل إلا بإذن المستخدم. */
+/** قراءة وقت استخدام التطبيقات عبر واجهة النظام الرسمية، ولا تعمل إلا بإذن المستخدم. لا يُعطَّل أي تطبيق. */
 class UsageHelper(private val context: Context) {
 
     @Suppress("DEPRECATION")
@@ -23,15 +22,35 @@ class UsageHelper(private val context: Context) {
         true
     } catch (e: Exception) { false }
 
-    /** دقائق الاستخدام الفعلية للحزم في المدى، أو null إن لم يُمنح الإذن. */
-    fun minutes(packages: Set<String>, startMs: Long, endMs: Long): Int? {
+    /** دقائق الاستخدام لكل حزمة، أو null إن لم يُمنح الإذن. */
+    fun minutesByPackage(packages: Set<String>, startMs: Long, endMs: Long): Map<String, Int>? {
         if (packages.isEmpty() || !hasPermission()) return null
         return try {
             val usm = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-            val map = usm.queryAndAggregateUsageStats(startMs, endMs)
-            var total = 0L
-            packages.forEach { total += map[it]?.totalTimeInForeground ?: 0L }
-            (total / 60000L).toInt()
+            val all = usm.queryAndAggregateUsageStats(startMs, endMs)
+            packages.associateWith { ((all[it]?.totalTimeInForeground ?: 0L) / 60000L).toInt() }
         } catch (e: Exception) { null }
     }
+
+    fun minutes(packages: Set<String>, startMs: Long, endMs: Long): Int? =
+        minutesByPackage(packages, startMs, endMs)?.values?.sum()
+
+    fun labelOf(pkg: String): String = PRESET_APPS[pkg] ?: try {
+        val pm = context.packageManager
+        pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString()
+    } catch (e: Exception) { pkg }
+
+    /** التطبيقات القابلة للتشغيل التي يستطيع المستخدم اختيارها. تطبيقات النظام الأصلية (الاتصال، الطوارئ...) مستبعدة. */
+    fun listLaunchableApps(): List<AppEntry> = try {
+        val pm = context.packageManager
+        val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+        pm.queryIntentActivities(intent, 0).mapNotNull { ri ->
+            val ai = ri.activityInfo.applicationInfo
+            val pkg = ai.packageName
+            val pureSystem = (ai.flags and ApplicationInfo.FLAG_SYSTEM) != 0 &&
+                (ai.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0
+            if (pkg == context.packageName || (pureSystem && pkg !in PRESET_APPS)) null
+            else AppEntry(pkg, ri.loadLabel(pm).toString())
+        }.distinctBy { it.pkg }.sortedBy { it.label.lowercase() }
+    } catch (e: Exception) { emptyList() }
 }
