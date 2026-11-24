@@ -119,8 +119,11 @@ class SmartReminderWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, 
                 val lastDone = repo.tasks.mapNotNull { it.doneAt }.filter { it >= startToday }.maxOrNull()
                 val ref = maxOf(lastDone ?: startOfWindow, startOfWindow)
                 val hours = ((System.currentTimeMillis() - ref) / 3600000L).toInt()
-                if (hours >= 5) fire(NType.ACCOUNT, 5, false, "h" to hours, "p" to b.pending)
+                if (hours >= 5 && fire(NType.ACCOUNT, 5, false, "h" to hours, "p" to b.pending)) return
             }
+
+            // تذكيرات قائمة الإنجاز العامة؛ عنصر واحد في كل تشغيل لتجنب إغراق المستخدم.
+            QuickItemReminder.run(ctx)
         }
     }
 }

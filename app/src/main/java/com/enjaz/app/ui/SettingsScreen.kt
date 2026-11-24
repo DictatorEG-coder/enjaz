@@ -59,7 +59,7 @@ fun SettingsScreen(
                 Spacer(Modifier.width(14.dp))
                 Column {
                     Text("إنجاز | ENJAZ", color = Gold, fontSize = 20.sp, fontFamily = FontFamily.Serif)
-                    Text("الإصدار 0.4.0", color = TextSoft.copy(alpha = 0.7f), fontSize = 13.sp)
+                    Text("الإصدار 0.5.0", color = TextSoft.copy(alpha = 0.7f), fontSize = 13.sp)
                 }
             }
         }

@@ -33,6 +33,7 @@ class AppSettings(context: Context) {
     var nDistract by mutableStateOf(p.getBoolean("n_distract", true)); private set
     var nDeadline by mutableStateOf(p.getBoolean("n_deadline", true)); private set
     var nEvening by mutableStateOf(p.getBoolean("n_evening", true)); private set
+    var nQuick by mutableStateOf(p.getBoolean("n_quick", true)); private set
     var startHour by mutableStateOf(p.getInt("n_start", 9)); private set
     var endHour by mutableStateOf(p.getInt("n_end", 23)); private set
     var eveningHour by mutableStateOf(p.getInt("n_evening_hour", 21)); private set
@@ -93,6 +94,7 @@ class AppSettings(context: Context) {
             "distract" -> { nDistract = on; p.edit().putBoolean("n_distract", on).apply() }
             "deadline" -> { nDeadline = on; p.edit().putBoolean("n_deadline", on).apply() }
             "evening" -> { nEvening = on; p.edit().putBoolean("n_evening", on).apply() }
+            "quick" -> { nQuick = on; p.edit().putBoolean("n_quick", on).apply() }
         }
     }
 
@@ -102,6 +104,7 @@ class AppSettings(context: Context) {
         "distract" -> nDistract
         "deadline" -> nDeadline
         "evening" -> nEvening
+        "quick" -> nQuick
         else -> false
     }
 
