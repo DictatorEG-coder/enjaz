@@ -60,7 +60,7 @@ class QuickItemsRepository(context: Context) {
         if (hours !in 1..168) return "الفاصل يجب أن يكون من ساعة إلى أسبوع."
         val now = System.currentTimeMillis()
         val item = QuickItem(
-            id = now, title = title, url = url, details = details, kind = kind,
+            id = maxOf(now, (state.maxOfOrNull { it.id } ?: 0L) + 1L), title = title, url = url, details = details, kind = kind,
             reminderHours = hours, createdAt = now, lastReminderAt = now
         )
         return if (persist(state + item)) null else "تعذّر حفظ العنصر."
