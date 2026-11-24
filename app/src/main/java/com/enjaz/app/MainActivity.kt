@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
         val app = applicationContext
         val wisdomRepo = WisdomRepository(app)
         val data = DataRepository(app)
+        val quickItems = QuickItemsRepository(app)
         val settings = AppSettings(app)
         val persona = Persona(app, settings)
         val usage = UsageHelper(app)
@@ -56,7 +57,8 @@ class MainActivity : ComponentActivity() {
             "الخطة" to EIcons.Plan,
             "التقارير" to EIcons.Reports,
             "التجارب" to EIcons.Experience,
-            "الإعدادات" to EIcons.Settings
+            "الإعدادات" to EIcons.Settings,
+            "إنجازاتي" to EIcons.Achievement
         )
 
         setContent {
@@ -102,12 +104,13 @@ class MainActivity : ComponentActivity() {
                                     1 -> PlanScreen(data, settings, persona)
                                     2 -> ReportsScreen(data, persona, settings, usage, tracker)
                                     3 -> ExperienceScreen(data, persona)
-                                    else -> SettingsScreen(
+                                    4 -> SettingsScreen(
                                         settings, usage,
                                         onFavorites = { screen = "favorites" },
                                         onMonitor = { screen = "monitor" },
                                         onNotifs = { screen = "notifs" }
                                     )
+                                    5 -> QuickItemsScreen(quickItems)
                                 }
                             }
                         }

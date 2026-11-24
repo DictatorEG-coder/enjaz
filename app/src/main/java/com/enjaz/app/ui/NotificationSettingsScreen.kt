@@ -109,6 +109,7 @@ fun NotificationSettingsScreen(settings: AppSettings, onBack: () -> Unit) {
             TypeRow("تنبيه الإفراط في التطبيقات المراقَبة", EIcons.Warning, "distract", settings)
             TypeRow("اقتراب موعد مهمة أو امتحان", EIcons.Plan, "deadline", settings)
             TypeRow("مراجعة نهاية اليوم", EIcons.Done, "evening", settings)
+            TypeRow("تذكير قائمة الإنجاز العامة", EIcons.Tasks, "quick", settings)
             if (settings.nDistract && !settings.monitoringEnabled) {
                 Text("تنبيه الاستخدام لا يعمل قبل تفعيل مراقبة التطبيقات ومنح إذنها.",
                     color = Danger, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
